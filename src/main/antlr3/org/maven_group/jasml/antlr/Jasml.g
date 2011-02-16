@@ -61,6 +61,7 @@ tokens {
     DOTDOTDOT='...';
     UNDER='_';
     DBLCOLON='::';
+    TYPE_PREFIX='\'';
 
     TRUE='true';
     FALSE='false';
@@ -70,6 +71,7 @@ tokens {
     LIST_LITERAL;
     CALL;
     TYPED_EXP;
+    LOOKUP;
 }
 
 @header {
@@ -177,14 +179,14 @@ fvalbindExp
     ;
 
 expression
-    : typedExpression COLON type -> ^(TYPED_EXP typedExpression type)
+    : (typedExpression COLON type)=> typedExpression COLON type -> ^(TYPED_EXP typedExpression type)
+    | typedExpression
     ;
 
 typedExpression
-    : andOrExpression
-        ( ANDALSO^ andOrExpression
-        | ORELSE^ andOrExpression
-        )*
+    : (andOrExpression ANDALSO^ andOrExpression)=> andOrExpression ANDALSO^ andOrExpression
+	| (andOrExpression ORELSE^ andOrExpression)=> andOrExpression ORELSE^ andOrExpression
+    | andOrExpression
     ;
 
 andOrExpression
@@ -195,12 +197,15 @@ andOrExpression
     ;
 
 infixExpression
-    : (e1=appliedExpression -> $e1)
-      (name e2=appliedExpression -> ^(CALL name $infixExpression $e2) )*
+    : appliedExpression
+     /*
+     (e1=appliedExpression -> $e1)
+      (name e2=appliedExpression -> ^(CALL ^(LOOKUP name) ^(TUPLE_LITERAL $infixExpression $e2)) )*
+      */
     ;
 
 appliedExpression
-    : atomicExpression /*(expression)*  use function */
+    : (e1=atomicExpression -> $e1) (e2=atomicExpression -> ^(CALL $e1 $e2))*
     ;
 
 atomicExpression
@@ -210,11 +215,12 @@ atomicExpression
     | tuple
     | list
     | LET declaration IN expression END  -> ^(LET declaration expression)
-    /*| LPAREN expression RPAREN   -> expression*/
     ;
 
 match
-    : atomicPattern ARROW expression (PIPE match)?
+    : (atomicPattern ARROW expression PIPE match)=>
+        atomicPattern ARROW expression PIPE match -> ^(ARROW atomicPattern expression) match 
+    | atomicPattern ARROW^ expression
     ;
 
 literal
@@ -235,15 +241,17 @@ record_selector
     ;
 
 tuple
-    : LPAREN (e1=expression -> $e1) (COMMA e2=expression -> ^(TUPLE_LITERAL $tuple $e2))* RPAREN
+    : (LPAREN expression (COMMA expression)+ RPAREN)=>
+        LPAREN expression (COMMA expression)+ RPAREN -> ^(TUPLE_LITERAL expression+)
+    | LPAREN expression RPAREN -> expression
     ;
 
 list
-    : LBRACKET e1=expression (COMMA e2=expression)+ RBRACKET  -> ^(LIST_LITERAL $e1 $e2)
+    : LBRACKET (expression (COMMA expression)*)? RBRACKET  -> ^(LIST_LITERAL expression*)
     ;
 
 type
-    : listType (TYPE_ARROW^ listType)*
+    : listType (TYPE_ARROW^ type)?
     ;
 
 listType
@@ -252,18 +260,24 @@ listType
 
 atomicType
     : name
-    | '\'' name
+    | TYPE_PREFIX^ name
     | LPAREN type RPAREN -> type
     ;
 
 atomicPattern
-    : atomicPattern2 (DBLCOLON^ atomicPattern2)*
+    : atomicListPattern (DBLCOLON^ atomicPattern)?
     ;
 
-atomicPattern2
-    : name
-    | LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN
-    | LBRACKET atomicPattern (COMMA atomicPattern)+ LBRACKET
+atomicListPattern
+    : atomicTupleLiteralPattern
+    | LBRACKET (atomicPattern (COMMA atomicPattern)*)? RBRACKET -> ^(LIST_LITERAL atomicPattern*)
+    | name
+    | literal
     | UNDER
     ;
 
+atomicTupleLiteralPattern
+    : (LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN)=>
+        LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN -> ^(TUPLE_LITERAL atomicPattern+)
+    | LPAREN atomicPattern RPAREN -> atomicPattern
+    ;

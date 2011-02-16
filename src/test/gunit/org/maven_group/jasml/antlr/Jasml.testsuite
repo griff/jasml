@@ -4,7 +4,21 @@ gunit Jasml;
     package org.maven_group.jasml.antlr;
 }
 
-andOrExpression:
+andalsoExpression:
+"true andalso false" -> (andalso true false)
+"1 andalso 2 andalso 3" -> (andalso (andalso 1 2) 3)
+"1 andalso (2 andalso 3)" -> (andalso 1 (andalso 2 3))
+"1 andalso 2 orelse 3" -> "(andalso 1 (orelse 2 3))
+"1 orelse 2 andalso 3" -> "(andalso (orelse 1 2) 3)
+"(1 andalso 2) orelse 3" -> "(orelse (andalso 1 2) 3)
+"1 orelse (2 andalso 3)" -> "(orelse 1 (andalso 2 3))
+
+orelseExpression:
+"true orelse false" -> (orelse true false)
+"1 orelse 2 orelse 3" -> (orelse (orelse 1 2) 3)
+"1 orelse (2 orelse 3)" -> (orelse 1 (orelse 2 3))
+
+preInfixExpression:
 "12 12" -> (CALL 12 12)
 "raise Muh" -> (raise (LOOKUP_NONFIX Muh))
 "if true then 12 else 25" -> (if true 12 25)

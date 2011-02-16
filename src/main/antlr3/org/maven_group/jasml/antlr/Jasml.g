@@ -189,17 +189,21 @@ fvalbindExp
     ;
 
 expression
-    : (typedExpression COLON type)=> typedExpression COLON type -> ^(TYPED_EXP typedExpression type)
-    | typedExpression
+    : (andalsoExpression COLON type)=> andalsoExpression COLON type -> ^(TYPED_EXP andalsoExpression type)
+    | andalsoExpression
     ;
 
-typedExpression
-    : (andOrExpression ANDALSO^ andOrExpression)=> andOrExpression ANDALSO^ andOrExpression
-	| (andOrExpression ORELSE^ andOrExpression)=> andOrExpression ORELSE^ andOrExpression
-    | andOrExpression
+andalsoExpression
+    : (orelseExpression ANDALSO^ orelseExpression)=> orelseExpression ANDALSO^ orelseExpression
+    | orelseExpression
     ;
 
-andOrExpression
+orelseExpression
+	: (preInfixExpression ORELSE^ preInfixExpression)=> preInfixExpression ORELSE^ preInfixExpression
+    | preInfixExpression
+    ;
+
+preInfixExpression
     : infixExpression
     | RAISE^ expression
     | IF cond=expression THEN t=expression ELSE e=expression -> ^(IF $cond $t $e)

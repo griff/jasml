@@ -67,11 +67,13 @@ tokens {
     FALSE='false';
 
     // Builtin types
-    TUPLE_LITERAL;
+    TUPLE;
     LIST_LITERAL;
     CALL;
     TYPED_EXP;
     LOOKUP;
+    LOOKUP_NONFIX;
+    EXPRESSIONS;
 }
 
 @header {
@@ -162,12 +164,20 @@ declarations
     ;
 
 declaration
+    : letDeclaration
+    | expression
+    ;
+
+letDeclarations
+    : letDeclaration*
+    ;
+
+letDeclaration
     : VAL REC? atomicPattern EQ expression
     /*| FUN fvalbind */
-    /*| TYPE typebind */
+    /*| TYPE name EQ typebind */
     | EXCEPTION^ name
     | OPEN^ name
-    | expression
     ;
 
 fvalbind
@@ -200,21 +210,22 @@ infixExpression
     : appliedExpression
      /*
      (e1=appliedExpression -> $e1)
-      (name e2=appliedExpression -> ^(CALL ^(LOOKUP name) ^(TUPLE_LITERAL $infixExpression $e2)) )*
+      (name e2=appliedExpression -> ^(CALL ^(LOOKUP name) ^(TUPLE $infixExpression $e2)) )*
       */
     ;
 
 appliedExpression
-    : (e1=atomicExpression -> $e1) (e2=atomicExpression -> ^(CALL $e1 $e2))*
+    : (e1=atomicExpression -> $e1) (e2=atomicExpression -> ^(CALL $appliedExpression $e2))*
     ;
 
 atomicExpression
     : literal
-    | OP? name
+    | OP name -> ^(LOOKUP name)
+    | name -> ^(LOOKUP_NONFIX name)
     /*| record_selector*/
     | tuple
     | list
-    | LET declaration IN expression END  -> ^(LET declaration expression)
+    | LET letDeclarations IN expression END  -> ^(LET letDeclarations? expression)
     ;
 
 match
@@ -241,8 +252,10 @@ record_selector
     ;
 
 tuple
-    : (LPAREN expression (COMMA expression)+ RPAREN)=>
-        LPAREN expression (COMMA expression)+ RPAREN -> ^(TUPLE_LITERAL expression+)
+    : (LPAREN expression (SEMI expression)+ RPAREN)=>
+        LPAREN expression (SEMI expression)+ RPAREN -> ^(EXPRESSIONS expression+)
+    | (LPAREN expression (COMMA expression)+ RPAREN)=> 
+        LPAREN expression (COMMA expression)+ RPAREN -> ^(TUPLE expression+)
     | LPAREN expression RPAREN -> expression
     ;
 
@@ -278,6 +291,6 @@ atomicListPattern
 
 atomicTupleLiteralPattern
     : (LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN)=>
-        LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN -> ^(TUPLE_LITERAL atomicPattern+)
+        LPAREN atomicPattern (COMMA atomicPattern)+ RPAREN -> ^(TUPLE atomicPattern+)
     | LPAREN atomicPattern RPAREN -> atomicPattern
     ;

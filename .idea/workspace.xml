@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="d39fdbca-9b05-4a27-bf4f-df988278d754" name="Default" comment="" />
-    <ignored path="$USER_HOME_GRIFFON$/" />
     <ignored path="$USER_HOME_GRAILS$/" />
+    <ignored path="$USER_HOME_GRIFFON$/" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,46 +60,19 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Jasml.g" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Jasml.g" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/antlr3/org/maven_group/jasml/antlr/Jasml.g">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="245" column="36" selection-start="4388" selection-end="4388" vertical-scroll-proportion="-14.307693">
+            <state line="73" column="11" selection-start="1206" selection-end="1206" vertical-scroll-proportion="-1.7925311">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Jasml.testsuite" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Jasml.testsuite" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/gunit/org/maven_group/jasml/antlr/Jasml.testsuite">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="9" selection-start="259" selection-end="259" vertical-scroll-proportion="0.19917013">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JasmlParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/maven_group/jasml/antlr/JasmlParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2069" column="33" selection-start="71332" selection-end="71332" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Policy.g" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/antlr3/Policy.g">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="332" column="54" selection-start="7981" selection-end="7981" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="53" selection-start="2945" selection-end="2945" vertical-scroll-proportion="0.0">
+            <state line="16" column="23" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -119,11 +92,11 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/target/generated-sources/antlr3/org/maven_group/jasml/antlr/JasmlParser.java" />
         <option value="$PROJECT_DIR$/src/test/gunit/org/maven_group/jasml/antlr/Jasml.gunit" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/antlr3/org/maven_group/jasml/antlr/Jasml.g" />
+        <option value="$PROJECT_DIR$/target/generated-sources/antlr3/org/maven_group/jasml/antlr/JasmlParser.java" />
         <option value="$PROJECT_DIR$/src/test/gunit/org/maven_group/jasml/antlr/Jasml.testsuite" />
+        <option value="$PROJECT_DIR$/src/main/antlr3/org/maven_group/jasml/antlr/Jasml.g" />
       </list>
     </option>
   </component>
@@ -170,6 +143,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Favorites" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -202,14 +177,6 @@
               <option name="myItemId" value="target" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generated-sources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -226,14 +193,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="generated-sources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -320,28 +279,6 @@
               <option name="myItemId" value="antlr3" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Jasml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Jasml" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="antlr" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -349,8 +286,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -532,16 +467,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="87" y="22" width="1341" height="846" extended-state="0" />
+    <frame x="62" y="50" width="1341" height="846" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972136" sideWeight="0.38031915" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972136" sideWeight="0.0" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972136" sideWeight="0.61037236" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -587,37 +522,26 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/antlr3/Policy.g">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="332" column="54" selection-start="7981" selection-end="7981" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/maven_group/jasml/antlr/JasmlParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2069" column="33" selection-start="71332" selection-end="71332" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="53" selection-start="2945" selection-end="2945" vertical-scroll-proportion="0.0">
+        <state line="66" column="53" selection-start="2945" selection-end="2945" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/org/antlr/antlr-runtime/3.3/antlr-runtime-3.3.jar!/org/antlr/runtime/tree/TreeAdaptor.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="21" selection-start="1902" selection-end="1915" vertical-scroll-proportion="0.75438595" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/gunit/org/maven_group/jasml/antlr/Jasml.testsuite">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="23" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/antlr3/org/maven_group/jasml/antlr/Jasml.g">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="36" selection-start="4388" selection-end="4388" vertical-scroll-proportion="-14.307693">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/gunit/org/maven_group/jasml/antlr/Jasml.testsuite">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="9" selection-start="259" selection-end="259" vertical-scroll-proportion="0.19917013">
+        <state line="73" column="11" selection-start="1206" selection-end="1206" vertical-scroll-proportion="-1.7925311">
           <folding />
         </state>
       </provider>

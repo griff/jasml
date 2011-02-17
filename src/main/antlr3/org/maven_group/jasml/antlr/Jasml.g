@@ -128,6 +128,9 @@ IDENTIFIER
     | Symbol+
     ;
 
+TYPE_VARIABLE : '\'' (Letter|AlphaNumDigit)*
+    ;
+
 fragment
 Letter : 'a'..'z' | 'A'..'Z'
     ;
@@ -189,18 +192,15 @@ fvalbindExp
     ;
 
 expression
-    : (andalsoExpression COLON type)=> andalsoExpression COLON type -> ^(TYPED_EXP andalsoExpression type)
-    | andalsoExpression
+    : andalsoExpression ((COLON type)=> COLON^ type)*
     ;
 
 andalsoExpression
-    : (orelseExpression ANDALSO^ orelseExpression)=> orelseExpression ANDALSO^ orelseExpression
-    | orelseExpression
+    : orelseExpression ((ANDALSO orelseExpression)=> ANDALSO^ orelseExpression)*
     ;
 
 orelseExpression
-	: (preInfixExpression ORELSE^ preInfixExpression)=> preInfixExpression ORELSE^ preInfixExpression
-    | preInfixExpression
+	: preInfixExpression ((ORELSE preInfixExpression)=> ORELSE^ preInfixExpression)*
     ;
 
 preInfixExpression
@@ -277,7 +277,7 @@ listType
 
 atomicType
     : name
-    | TYPE_PREFIX^ name
+    | TYPE_VARIABLE
     | LPAREN type RPAREN -> type
     ;
 

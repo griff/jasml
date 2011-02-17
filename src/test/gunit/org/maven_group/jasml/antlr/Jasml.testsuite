@@ -4,19 +4,34 @@ gunit Jasml;
     package org.maven_group.jasml.antlr;
 }
 
+expression:
+"12 : int" -> (: 12 int)
+"12 : a" -> (: 12 a)
+"12 : 'a -> 'b" -> (: 12 (-> 'a 'b))
+"raise Muh : exn" -> (raise (: (LOOKUP_NONFIX Muh) exn))
+"raise Muh : exn : exn" -> (raise (: (: (LOOKUP_NONFIX Muh) exn) exn))
+"raise Muh : exn : exn : exn" -> (raise (: (: (: (LOOKUP_NONFIX Muh) exn) exn) exn))
+"(raise Muh) : exn" -> (: (raise (LOOKUP_NONFIX Muh)) exn)
+"(raise Muh) : exn : exn" -> (: (: (raise (LOOKUP_NONFIX Muh)) exn) exn)
+"(raise Muh) : exn : exn : exn" -> (: (: (: (raise (LOOKUP_NONFIX Muh)) exn) exn) exn)
+
 andalsoExpression:
 "true andalso false" -> (andalso true false)
 "1 andalso 2 andalso 3" -> (andalso (andalso 1 2) 3)
 "1 andalso (2 andalso 3)" -> (andalso 1 (andalso 2 3))
-"1 andalso 2 orelse 3" -> "(andalso 1 (orelse 2 3))
-"1 orelse 2 andalso 3" -> "(andalso (orelse 1 2) 3)
-"(1 andalso 2) orelse 3" -> "(orelse (andalso 1 2) 3)
-"1 orelse (2 andalso 3)" -> "(orelse 1 (andalso 2 3))
+"1 andalso 2 orelse 3" -> (andalso 1 (orelse 2 3))
+"1 orelse 2 andalso 3" -> (andalso (orelse 1 2) 3)
+"(1 andalso 2) orelse 3" -> (orelse (andalso 1 2) 3)
+"1 orelse (2 andalso 3)" -> (orelse 1 (andalso 2 3))
+"raise Muh andalso true" -> (raise (andalso (LOOKUP_NONFIX Muh) true))
+"(raise Muh) andalso true" -> (andalso (raise (LOOKUP_NONFIX Muh)) true)
 
 orelseExpression:
 "true orelse false" -> (orelse true false)
 "1 orelse 2 orelse 3" -> (orelse (orelse 1 2) 3)
 "1 orelse (2 orelse 3)" -> (orelse 1 (orelse 2 3))
+"raise Muh orelse true" -> (raise (orelse (LOOKUP_NONFIX Muh) true))
+"(raise Muh) orelse true" -> (orelse (raise (LOOKUP_NONFIX Muh)) true)
 
 preInfixExpression:
 "12 12" -> (CALL 12 12)
@@ -71,8 +86,9 @@ type:
 "int list" -> (list int)
 "int list list" -> (list (list int))
 "list list" FAIL
-"('a -> 'b) -> 'a list -> 'b list" -> (-> (-> (' a) (' b)) (-> (list (' a)) (list (' b))))
-"'a -> 'b -> 'a list -> 'b list" -> (-> (' a) (-> (' b) (-> (list (' a)) (list (' b)))))
+"'12" -> "'12"
+"('a -> 'b) -> 'a list -> 'b list" -> (-> (-> 'a 'b) (-> (list 'a) (list 'b)))
+"'a -> 'b -> 'a list -> 'b list" -> (-> 'a (-> 'b (-> (list 'a) (list 'b))))
 
 tuple:
 "(ert)" -> (LOOKUP_NONFIX ert)

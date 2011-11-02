@@ -4,6 +4,44 @@ gunit Jasml;
     package org.maven_group.jasml.antlr;
 }
 
+declarations:
+"12 val test=23" FAIL
+"12;val test=23" -> "12 (val test 23)"
+"val test=23;12" -> "(val test 23) 12"
+"val test=23 12" -> "(val test (CALL 23 12))"
+"val test=23 val muh=55" -> "(val test 23) (val muh 55)"
+"val test=23 val muh=55;12" -> "(val test 23) (val muh 55) 12"
+"val test=23 val muh=55;12 val test2=24" FAIL
+"val test=23 val muh=55;12;val test2=24" -> "(val test 23) (val muh 55) 12 (val test2 24)"
+"12;val test=23 val muh=55" -> "12 (val test 23) (val muh 55)"
+"val test=23; val muh=55" -> "(val test 23) (val muh 55)"
+"val d = b let in 55 end" -> (val d (CALL (LOOKUP_NONFIX b) (let 55)))
+
+//infixExpression:
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 12 + 12" -> (CALL (LOOKUP +) (TUPLE 12 12))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 + 2 - 3" -> (CALL (LOOKUP -) (TUPLE (CALL (LOOKUP +) (TUPLE 1 2)) 3))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 + 2 + 3" -> (CALL (LOOKUP +) (TUPLE (CALL (LOOKUP +) (TUPLE 1 2)) 3))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 + 2 * 3" -> (CALL (LOOKUP +) (TUPLE 1 (CALL (LOOKUP *) (TUPLE 2 3))))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; (1 + 2) * 3" -> (CALL (LOOKUP *) (TUPLE (CALL (LOOKUP +) (TUPLE 1 2)) 3))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 ^ 2 ^ 3" -> (CALL (LOOKUP ^) (TUPLE 1 (CALL (LOOKUP ^) (TUPLE 2 3))))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 * 2 * 3 ^ 4" -> (CALL (LOOKUP *) (TUPLE (CALL (LOOKUP *) (TUPLE 1 2)) (CALL (LOOKUP ^) (TUPLE 3 4))))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 * 2 ^ 3" -> (CALL (LOOKUP *) (TUPLE 1 (CALL (LOOKUP ^) (TUPLE 2 3))))
+"infix 4 ::; infix +; infix 0 -; infix 3 *; infix 3 /; infixr 3 ^; 1 + 2 :: []" -> (CALL (LOOKUP +) (TUPLE 1 (CALL (LOOKUP ::) (TUPLE 2 LIST_LITERAL))))
+"infix =; 12 = 12" -> (CALL (LOOKUP =) (TUPLE 12 12))
+"infix =; let nonfix = in = (12, 12) end" -> "(let (CALL (LOOKUP_NONFIX =) (TUPLE 12 12)))"
+"infix =; let nonfix = in = (12, 12) end; 12 = 12" -> "(let (CALL (LOOKUP_NONFIX =) (TUPLE 12 12))) (CALL (LOOKUP =) (TUPLE 12 12))"
+
+letDeclaration:
+"open klam" -> (open klam)
+"exception Muh" -> (exception Muh)
+"val x=12" -> (val x 12)
+"val _::xs=[12]" -> (val (:: _ xs) (LIST_LITERAL 12))
+"fun yaml _ = 12" -> (fun yaml (= _ 12))
+"fun yaml _ x = x" -> (fun yaml (= _ x (LOOKUP_NONFIX x)))
+"fun yaml _ x = x | yaml x = 12" -> (fun yaml (= _ x (LOOKUP_NONFIX x)) (= x 12))
+"fun = (a, b) = 12" -> "(fun = (= (TUPLE a b) 12))" 
+"fun m [] = 0 | m x::xs = x + m xs" -> (fun m (= LIST_LITERAL 0) (= (:: x xs) (CALL (CALL (CALL (LOOKUP_NONFIX x) (LOOKUP_NONFIX +)) (LOOKUP_NONFIX m)) (LOOKUP_NONFIX xs))))
+
 expression:
 "12 : int" -> (: 12 int)
 "12 : a" -> (: 12 a)
@@ -34,7 +72,6 @@ orelseExpression:
 "(raise Muh) orelse true" -> (orelse (raise (LOOKUP_NONFIX Muh)) true)
 
 preInfixExpression:
-"12 12" -> (CALL 12 12)
 "raise Muh" -> (raise (LOOKUP_NONFIX Muh))
 "if true then 12 else 25" -> (if true 12 25)
 "fn _ => 26" -> (fn (=> _ 26))
@@ -42,7 +79,7 @@ preInfixExpression:
 "fn 12 => fn 25 => 26 | _ => 12" -> (fn (=> 12 (fn (=> 25 26) (=> _ 12))))
 "fn 12 => (fn 25 => 26) | _ => 12" -> (fn (=> 12 (fn (=> 25 26))) (=> _ 12))
 
-appliedExpression:
+//appliedExpression:
 "12 12" -> (CALL 12 12)
 "a b" -> (CALL (LOOKUP_NONFIX a) (LOOKUP_NONFIX b))
 "a (12, 12)" -> (CALL (LOOKUP_NONFIX a) (TUPLE 12 12))
@@ -58,6 +95,8 @@ atomicExpression:
 "false" -> "false"
 "#\"a\"" -> "#\"a\""
 "\"abc\"" -> "\"abc\""
+"#1 (12, 44)" -> (#1 (TUPLE 12 44))
+"#1 #2 z" -> (#1 (#2 (LOOKUP_NONFIX z)))
 "[]" -> "LIST_LITERAL"
 "[a]" -> (LIST_LITERAL (LOOKUP_NONFIX a))
 "[12]" -> (LIST_LITERAL 12)
@@ -74,6 +113,8 @@ atomicExpression:
 "let exception Muh in raise Muh end" -> (let (exception Muh) (raise (LOOKUP_NONFIX Muh)))
 "let exception Muh exception Gert in raise Muh end" -> (let (exception Muh) (exception Gert) (raise (LOOKUP_NONFIX Muh)))
 "let exception Muh 12 in 12 end" FAIL
+"let 12 val test = 55 in end" FAIL
+"let fun m [] = 0 | m x::xs = x + m xs val tester = m [1, 2, 3, 4] in tester end" -> (let (fun m (= LIST_LITERAL 0) (= (:: x xs) (CALL (CALL (CALL (LOOKUP_NONFIX x) (LOOKUP_NONFIX +)) (LOOKUP_NONFIX m)) (LOOKUP_NONFIX xs)))) (val tester (CALL (LOOKUP_NONFIX m) (LIST_LITERAL 1 2 3 4))) (LOOKUP_NONFIX tester))
 
 match:
 "_ => 26" -> (=> _ 26)
@@ -91,6 +132,7 @@ type:
 "'a -> 'b -> 'a list -> 'b list" -> (-> 'a (-> 'b (-> (list 'a) (list 'b))))
 
 tuple:
+"()" -> "TUPLE"
 "(ert)" -> (LOOKUP_NONFIX ert)
 "(1, ert)" -> (TUPLE 1 (LOOKUP_NONFIX ert))
 "(1; ert, 12)" FAIL
@@ -112,6 +154,7 @@ atomicPattern:
 "#\"a\"" -> "#\"a\""
 "\"abc\"" -> "\"abc\""
 "[]" -> "LIST_LITERAL"
+"[::]" -> "(LIST_LITERAL ::)"
 "[_]" -> (LIST_LITERAL _)
 "[a]" -> (LIST_LITERAL a)
 "[12]" -> (LIST_LITERAL 12)
@@ -120,6 +163,9 @@ atomicPattern:
 "[false]" -> (LIST_LITERAL false)
 "[#\"a\"]" -> (LIST_LITERAL #"a")
 "[\"abc\"]" -> (LIST_LITERAL "\"abc\"")
+"()" -> "TUPLE"
+"(a)" -> "a"
+"(x, y, _)" -> (TUPLE x y _)
 "1::2::[]" -> (:: 1 (:: 2 LIST_LITERAL))
 "(1::[])::[3]::[]" -> (:: (:: 1 LIST_LITERAL) (:: (LIST_LITERAL 3) LIST_LITERAL))
 "_::xs" -> (:: _ xs)
